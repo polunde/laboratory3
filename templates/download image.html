@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Выберите картинку</h2>
+<form method="POST" action="/wh">
+    <div><label>Высота: <input type="number" name="height"></label></div>
+    <div><label>Ширина: <input type="number" name="width"></label></div>
+    <input type="submit" value="Submit">
+</form>
+<p>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+<ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+</p>
+{% if filename %}
+
+
+<div>
+    <img src="{{ url_for('display_image', filename=filename) }}">
+    <h2> Source color map </h2>
+    <img src="{{ url_for('display_imagemap', mat_filename=mat_filename) }}">
+    <h2> Changed size color map </h2>
+    <img src="{{ url_for('display_imagemap_resized', mat_filename_resized=mat_filename_resized) }}">
+</div>
+{% endif %}
+
+<form method="post" action="/" enctype="multipart/form-data">
+    <dl>
+        <p>
+            <input type="file" name="file" autocomplete="off" required>
+        </p>
+    </dl>
+        {{ form.recaptcha }}
+    <div class="form-group">
+            {{ form.submit(class="btn-sm btn-primary form-control") }}
+    </div>
+</form>
+
+    {% endblock %}
